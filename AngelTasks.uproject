@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{19F07E4C-4352-5867-075D-EB9CEB91EFBC}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "AngelTasks",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
