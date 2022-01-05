@@ -7,7 +7,32 @@
 		{
 			"Name": "AngelTasks",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"UMG"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "SimpleHTTP",
+			"Enabled": true,
+			"MarketplaceURL": "https://www.aboutcg.org/courseDetails/764/introduce"
+		},
+		{
+			"Name": "SimpleNetChannel",
+			"Enabled": true,
+			"MarketplaceURL": "https://renzhai.net/361.html"
+		},
+		{
+			"Name": "SimpleThread",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/f842694afc354d25b1c3cb3a5397bd9d"
+		},
+		{
+			"Name": "AngelTasksCommon",
+			"Enabled": true
 		}
 	]
 }
