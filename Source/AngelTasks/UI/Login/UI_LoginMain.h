@@ -58,9 +58,9 @@ public:
 
 public:
 	/**
-	* Send Account and Password to UI_Login for Sign In function.
+	* Send Account and Password to UI_Login for Sign In function. CANNOT add const.
 	***********************************************************************************/
-	void SignIn(const FString &, const FString &);
+	void SignIn(FString &, FString &);
 
 	/**
 	* Send Register request to UI_Login for Sign In function.

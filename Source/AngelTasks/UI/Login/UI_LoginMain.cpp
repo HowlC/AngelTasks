@@ -7,6 +7,7 @@
 *
 * Copyright EDanDan Studio.
 *
+* 发包执行类。
 * Cpp
 *
 ***********************************************************************************/
@@ -15,9 +16,11 @@
 #include "UI_LoginMain.h"
 #include "ThreadManage.h"
 #include "UObject/SimpleController.h"
-#include "../../AngelTasksGameInstance.h"
 #include "Components/TextBlock.h"
 #include "UI_Login.h"
+#include "Protocol/LoginProtocol.h"
+#include "../../AngelTasksMacroType.h"
+#include "AngelTasksType.h"
 
 void UUI_LoginMain::NativeConstruct()
 {
@@ -55,8 +58,13 @@ void UUI_LoginMain::NativeDestruct()
 	}
 }
 
-void UUI_LoginMain::SignIn(const FString& InAccount, const FString& InPassword)
+// CANNOT add "const" before "FString", or account and password info will not be transferred properly
+void UUI_LoginMain::SignIn(FString& InAccount, FString& InPassword)
 {
+	// 发包，Send Account and Password to login server
+	// 通过GameInstance调用该宏，暂不考虑加密（可在配置文件加密02A_05 03:15）
+	// Defined in "AngelTasksMacroType.h"
+	SEND_DATA(SP_LoginRequests, InAccount, InPassword);
 
 }
 
@@ -100,6 +108,37 @@ void UUI_LoginMain::BindClientRcv()
 
 void UUI_LoginMain::RecvProtocol(uint32 ProtocolNumber, FSimpleChannel* Channel)
 {
+	// Call back
+	switch (ProtocolNumber)
+	{
+		// If receives login request
+		case SP_LoginResponses: 
+		{
+			FString String;
+			ELoginType Type = ELoginType::LOGIN_DB_SERVER_ERROR;
+
+			// Get account info from client
+			SIMPLE_PROTOCOLS_RECEIVE(SP_LoginResponses, Type, String);
+
+			switch (Type)
+			{
+			case LOGIN_DB_SERVER_ERROR:
+				PrintLog(TEXT("Server error."));
+				break;
+			case LOGIN_SUCCESS:
+				PrintLog(TEXT("Login successfully."));
+				break;
+			case LOGIN_ACCOUNT_WRONG:
+				PrintLog(TEXT("Account does not exist."));
+				break;
+			case LOGIN_WRONG_PASSWORD:
+				PrintLog(TEXT("Wrong password."));
+				break;
+			}
+
+			break;
+		}
+	}
 
 }
 
